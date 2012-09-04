@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDCP", "CDCP\CDCP.csproj", "{AB10C1FB-74EC-43E0-8CB7-463BC7F37DAC}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = CDCP\\CDCP.csproj
+		SccProjectName1 = CDCP
+		SccLocalPath1 = CDCP
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB10C1FB-74EC-43E0-8CB7-463BC7F37DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB10C1FB-74EC-43E0-8CB7-463BC7F37DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB10C1FB-74EC-43E0-8CB7-463BC7F37DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB10C1FB-74EC-43E0-8CB7-463BC7F37DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
