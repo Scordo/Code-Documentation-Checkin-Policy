@@ -98,9 +98,12 @@ namespace CDCP
 
         private void OnPolicyFailureActivation(CodeDocumentationPolicyFailure policyFailure)
         {
-            DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.11.0");
-
-            if (ide == null)
+#if V2010 
+			DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.10.0");
+#else
+			DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.11.0");
+#endif
+			if (ide == null)
                 return;
 
             Document document = ide.Documents.Open(policyFailure.Violation.Filepath);
