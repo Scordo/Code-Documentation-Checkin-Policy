@@ -51,6 +51,8 @@
             this.PropertiesConfigControlInstance = new CDCP.UI.PropertiesConfigControl();
             this.MethodsTab = new System.Windows.Forms.TabPage();
             this.MethodsConfigControlInstance = new CDCP.UI.MethodsConfigControl();
+            this.GeneralTab = new System.Windows.Forms.TabPage();
+            this.GeneralConfigControlInstance = new CDCP.UI.GeneralConfigControl();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.ClassesTab.SuspendLayout();
@@ -62,6 +64,7 @@
             this.FieldsTab.SuspendLayout();
             this.PropertiesTab.SuspendLayout();
             this.MethodsTab.SuspendLayout();
+            this.GeneralTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -127,6 +130,7 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.GeneralTab);
             this.tabControl1.Controls.Add(this.ClassesTab);
             this.tabControl1.Controls.Add(this.StructsTab);
             this.tabControl1.Controls.Add(this.InteracesTab);
@@ -310,6 +314,24 @@
             this.MethodsConfigControlInstance.Size = new System.Drawing.Size(451, 167);
             this.MethodsConfigControlInstance.TabIndex = 0;
             // 
+            // GeneralTab
+            // 
+            this.GeneralTab.Controls.Add(this.GeneralConfigControlInstance);
+            this.GeneralTab.Location = new System.Drawing.Point(4, 22);
+            this.GeneralTab.Name = "GeneralTab";
+            this.GeneralTab.Size = new System.Drawing.Size(451, 167);
+            this.GeneralTab.TabIndex = 9;
+            this.GeneralTab.Text = "General";
+            this.GeneralTab.UseVisualStyleBackColor = true;
+            // 
+            // GeneralConfigControlInstance
+            // 
+            this.GeneralConfigControlInstance.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GeneralConfigControlInstance.Location = new System.Drawing.Point(0, 0);
+            this.GeneralConfigControlInstance.Name = "GeneralConfigControlInstance";
+            this.GeneralConfigControlInstance.Size = new System.Drawing.Size(451, 167);
+            this.GeneralConfigControlInstance.TabIndex = 0;
+            // 
             // PolicyConfigSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,6 +356,7 @@
             this.FieldsTab.ResumeLayout(false);
             this.PropertiesTab.ResumeLayout(false);
             this.MethodsTab.ResumeLayout(false);
+            this.GeneralTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -363,6 +386,8 @@
         private StructsConfigControl StructsConfigControlInstance;
         private InterfacesConfigControl InterfacesConfigControlInstance;
         private System.Windows.Forms.Button ResetToDefaultsButton;
+        private System.Windows.Forms.TabPage GeneralTab;
+        private GeneralConfigControl GeneralConfigControlInstance;
 
     }
 }

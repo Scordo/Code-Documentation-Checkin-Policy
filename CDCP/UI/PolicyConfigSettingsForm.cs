@@ -11,7 +11,7 @@ namespace CDCP.UI
         public PolicyConfigSettingsForm()
         {
             InitializeComponent();
-            _configControls = new List<IPolicyConfigControl>{ClassesConfigControlInstance, StructsConfigControlInstance, InterfacesConfigControlInstance, EnumsConfigControlInstance, EventsConfigControlInstance, DelegatesConfigControlInstance, FieldsConfigControlInstance, PropertiesConfigControlInstance, MethodsConfigControlInstance};
+            _configControls = new List<IPolicyConfigControl>{ClassesConfigControlInstance, StructsConfigControlInstance, InterfacesConfigControlInstance, EnumsConfigControlInstance, EventsConfigControlInstance, DelegatesConfigControlInstance, FieldsConfigControlInstance, PropertiesConfigControlInstance, MethodsConfigControlInstance, GeneralConfigControlInstance};
         }
 
         void IPolicyConfigControl.ReadFromConfig(PolicyConfig config)

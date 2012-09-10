@@ -14,6 +14,8 @@ namespace CDCP.Configuration
         public FieldConfig FieldConfig { get; set; }
         public PropertyConfig PropertyConfig { get; set; }
         public EnumConfig EnumConfig { get; set; }
+        public bool SkipMerges { get; set; }
+        public bool SkipBranches { get; set; }
 
         public static PolicyConfig GetDefault()
         {
@@ -27,7 +29,9 @@ namespace CDCP.Configuration
                 EventConfig = EventConfig.GetDefault(),
                 FieldConfig = FieldConfig.GetDefault(),
                 PropertyConfig = PropertyConfig.GetDefault(),
-                EnumConfig = EnumConfig.GetDefault()
+                EnumConfig = EnumConfig.GetDefault(),
+                SkipMerges = false,
+                SkipBranches = true
             };
         }
     }

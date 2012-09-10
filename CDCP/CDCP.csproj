@@ -23,7 +23,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;V2012</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -31,7 +31,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;V2012</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -52,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -127,6 +128,12 @@
     <Compile Include="UI\FieldsConfigControl.Designer.cs">
       <DependentUpon>FieldsConfigControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\GeneralConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\GeneralConfigControl.Designer.cs">
+      <DependentUpon>GeneralConfigControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\InterfacesConfigControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -185,6 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FieldsConfigControl.resx">
       <DependentUpon>FieldsConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GeneralConfigControl.resx">
+      <DependentUpon>GeneralConfigControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MethodsConfigControl.resx">
       <DependentUpon>MethodsConfigControl.cs</DependentUpon>
