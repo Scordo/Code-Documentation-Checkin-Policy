@@ -203,6 +203,13 @@
       <Link>UI\FieldsConfigControl.designer.cs</Link>
       <DependentUpon>FieldsConfigControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\CDCP\UI\GeneralConfigControl.cs">
+      <Link>UI\GeneralConfigControl.cs</Link>
+    </Compile>
+    <Compile Include="..\CDCP\UI\GeneralConfigControl.Designer.cs">
+      <Link>UI\GeneralConfigControl.Designer.cs</Link>
+	  <DependentUpon>GeneralConfigControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\CDCP\UI\InterfacesConfigControl.cs">
       <Link>UI\InterfacesConfigControl.cs</Link>
       <SubType>UserControl</SubType>
@@ -281,6 +288,10 @@
     <EmbeddedResource Include="..\CDCP\UI\FieldsConfigControl.resx">
       <Link>UI\FieldsConfigControl.resx</Link>
       <DependentUpon>FieldsConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\CDCP\UI\GeneralConfigControl.resx">
+      <Link>UI\GeneralConfigControl.resx</Link>
+	  <DependentUpon>GeneralConfigControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="..\CDCP\UI\MethodsConfigControl.resx">
       <Link>UI\MethodsConfigControl.resx</Link>
