@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.SummaryDocumentationTagCheckBox = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.Visibilities = new CDCP.UI.VisibilityControl();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // SummaryDocumentationTagCheckBox
@@ -41,6 +43,7 @@
             this.SummaryDocumentationTagCheckBox.Size = new System.Drawing.Size(69, 17);
             this.SummaryDocumentationTagCheckBox.TabIndex = 44;
             this.SummaryDocumentationTagCheckBox.Text = "Summary";
+            this.toolTip1.SetToolTip(this.SummaryDocumentationTagCheckBox, "When checked, a non empty <summar> tag is required");
             this.SummaryDocumentationTagCheckBox.UseVisualStyleBackColor = true;
             // 
             // label17
@@ -79,5 +82,6 @@
         private System.Windows.Forms.CheckBox SummaryDocumentationTagCheckBox;
         private System.Windows.Forms.Label label17;
         private VisibilityControl Visibilities;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

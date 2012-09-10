@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.GenericParametersOptionCheckBox = new System.Windows.Forms.CheckBox();
             this.SampleDocumentationTagCheckBox = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
             this.SummaryDocumentationTagCheckBox = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.Visibilities = new CDCP.UI.VisibilityControl();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // GenericParametersOptionCheckBox
@@ -44,6 +46,7 @@
             this.GenericParametersOptionCheckBox.Size = new System.Drawing.Size(118, 17);
             this.GenericParametersOptionCheckBox.TabIndex = 69;
             this.GenericParametersOptionCheckBox.Text = "Generic parameters";
+            this.toolTip1.SetToolTip(this.GenericParametersOptionCheckBox, "When checked, non empty generic parameter descriptions are required.");
             this.GenericParametersOptionCheckBox.UseVisualStyleBackColor = true;
             // 
             // SampleDocumentationTagCheckBox
@@ -54,6 +57,7 @@
             this.SampleDocumentationTagCheckBox.Size = new System.Drawing.Size(61, 17);
             this.SampleDocumentationTagCheckBox.TabIndex = 67;
             this.SampleDocumentationTagCheckBox.Text = "Sample";
+            this.toolTip1.SetToolTip(this.SampleDocumentationTagCheckBox, "When checked, a non empty <example> tag is required");
             this.SampleDocumentationTagCheckBox.UseVisualStyleBackColor = true;
             // 
             // label16
@@ -74,6 +78,7 @@
             this.SummaryDocumentationTagCheckBox.Size = new System.Drawing.Size(69, 17);
             this.SummaryDocumentationTagCheckBox.TabIndex = 63;
             this.SummaryDocumentationTagCheckBox.Text = "Summary";
+            this.toolTip1.SetToolTip(this.SummaryDocumentationTagCheckBox, "When checked, a non empty <summar> tag is required");
             this.SummaryDocumentationTagCheckBox.UseVisualStyleBackColor = true;
             // 
             // label17
@@ -118,5 +123,6 @@
         private System.Windows.Forms.CheckBox SummaryDocumentationTagCheckBox;
         private System.Windows.Forms.Label label17;
         private VisibilityControl Visibilities;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
