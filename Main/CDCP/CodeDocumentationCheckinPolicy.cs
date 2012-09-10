@@ -76,7 +76,7 @@ namespace CDCP
             List<PolicyFailure> failures = new List<PolicyFailure>();
             CodeCommentsFacade facade = new CodeCommentsFacade();
             
-            foreach (PendingChange pendingChange in PendingCheckin.PendingChanges.CheckedPendingChanges.Where(IsNonDeletedCSharpSourceFile))
+            foreach (PendingChange pendingChange in PendingCheckin.PendingChanges.CheckedPendingChanges.Where(EqualsConfigFilterCriterias))
             {
                 failures.AddRange(facade.CheckFileDocumentation(pendingChange.LocalItem, _config ?? PolicyConfig.GetDefault()).Violations.Select(v => new CodeDocumentationPolicyFailure(v, pendingChange, this)));
             }
@@ -119,9 +119,12 @@ namespace CDCP
             selection.GotoLine(policyFailure.Violation.Line, true);
         }
 
-        private bool IsNonDeletedCSharpSourceFile(PendingChange pendingChange)
+        private bool EqualsConfigFilterCriterias(PendingChange pendingChange)
         {
-            return pendingChange.ChangeType != ChangeType.Delete && ".cs".Equals(Path.GetExtension(pendingChange.FileName), StringComparison.InvariantCultureIgnoreCase);
+            return !pendingChange.ChangeType.HasFlag(ChangeType.Delete) && // make sure we dont try to parse deleted files
+                    ".cs".Equals(Path.GetExtension(pendingChange.FileName), StringComparison.InvariantCultureIgnoreCase) && // make sure it is a C# file
+                    (!_config.SkipMerges || !pendingChange.ChangeType.HasFlag(ChangeType.Merge)) && // skip merges if set in options
+                    (!_config.SkipBranches || !pendingChange.ChangeType.HasFlag(ChangeType.Branch)); // skip branches if set in options
         }
 
         private PolicyConfig GetDeserializedSettings()
