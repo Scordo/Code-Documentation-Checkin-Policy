@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.OverridesOptionCheckBox = new System.Windows.Forms.CheckBox();
             this.ReturnsDocumentationTagCheckBox = new System.Windows.Forms.CheckBox();
             this.InterfaceOptionCheckBox = new System.Windows.Forms.CheckBox();
@@ -36,6 +37,7 @@
             this.SummaryDocumentationTagCheckBox = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.Visibilities = new CDCP.UI.VisibilityControl();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // OverridesOptionCheckBox
@@ -46,6 +48,7 @@
             this.OverridesOptionCheckBox.Size = new System.Drawing.Size(71, 17);
             this.OverridesOptionCheckBox.TabIndex = 47;
             this.OverridesOptionCheckBox.Text = "Overrides";
+            this.toolTip1.SetToolTip(this.OverridesOptionCheckBox, "When checked, then overriden ones are required.");
             this.OverridesOptionCheckBox.UseVisualStyleBackColor = true;
             // 
             // ReturnsDocumentationTagCheckBox
@@ -56,6 +59,7 @@
             this.ReturnsDocumentationTagCheckBox.Size = new System.Drawing.Size(63, 17);
             this.ReturnsDocumentationTagCheckBox.TabIndex = 45;
             this.ReturnsDocumentationTagCheckBox.Text = "Returns";
+            this.toolTip1.SetToolTip(this.ReturnsDocumentationTagCheckBox, "When checked, a non empty <returns> tag is required");
             this.ReturnsDocumentationTagCheckBox.UseVisualStyleBackColor = true;
             // 
             // InterfaceOptionCheckBox
@@ -63,9 +67,10 @@
             this.InterfaceOptionCheckBox.AutoSize = true;
             this.InterfaceOptionCheckBox.Location = new System.Drawing.Point(164, 55);
             this.InterfaceOptionCheckBox.Name = "InterfaceOptionCheckBox";
-            this.InterfaceOptionCheckBox.Size = new System.Drawing.Size(123, 17);
+            this.InterfaceOptionCheckBox.Size = new System.Drawing.Size(113, 17);
             this.InterfaceOptionCheckBox.TabIndex = 44;
-            this.InterfaceOptionCheckBox.Text = "Interface declaration";
+            this.InterfaceOptionCheckBox.Text = "Interface definition";
+            this.toolTip1.SetToolTip(this.InterfaceOptionCheckBox, "When checked, then properties defined on an interface are required.");
             this.InterfaceOptionCheckBox.UseVisualStyleBackColor = true;
             // 
             // ExplicitOptionCheckBox
@@ -76,6 +81,7 @@
             this.ExplicitOptionCheckBox.Size = new System.Drawing.Size(176, 17);
             this.ExplicitOptionCheckBox.TabIndex = 43;
             this.ExplicitOptionCheckBox.Text = "Explicit interface implementation";
+            this.toolTip1.SetToolTip(this.ExplicitOptionCheckBox, "When checked, then explicit interface implementations are required.");
             this.ExplicitOptionCheckBox.UseVisualStyleBackColor = true;
             // 
             // label16
@@ -96,6 +102,7 @@
             this.SummaryDocumentationTagCheckBox.Size = new System.Drawing.Size(69, 17);
             this.SummaryDocumentationTagCheckBox.TabIndex = 41;
             this.SummaryDocumentationTagCheckBox.Text = "Summary";
+            this.toolTip1.SetToolTip(this.SummaryDocumentationTagCheckBox, "When checked, a non empty <summar> tag is required");
             this.SummaryDocumentationTagCheckBox.UseVisualStyleBackColor = true;
             // 
             // label17
@@ -144,5 +151,6 @@
         private System.Windows.Forms.CheckBox SummaryDocumentationTagCheckBox;
         private System.Windows.Forms.Label label17;
         private VisibilityControl Visibilities;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
