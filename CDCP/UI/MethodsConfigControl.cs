@@ -33,7 +33,7 @@ namespace CDCP.UI
             controlConfig.GenericParameterDocumentationRequired = GenericParametersOptionCheckBox.Checked;
             controlConfig.ParameterDocumentationRequired = ParametersOptionCheckBox.Checked;
             controlConfig.DocumentOverrides = OverridesOptionCheckBox.Checked;
-            controlConfig.ExplicitInterfaceMethodDocumentationRequired = InterfaceOptionCheckBox.Checked;
+            controlConfig.ExplicitInterfaceMethodDocumentationRequired = ExplicitOptionCheckBox.Checked;
             controlConfig.InterfaceDeclarationDocumentationRequired = InterfaceOptionCheckBox.Checked;
             controlConfig.ResultDocumentationRequired = ReturnsDocumentationTagCheckBox.Checked;
             controlConfig.SampleDocumentationRequired = SampleDocumentationTagCheckBox.Checked;
