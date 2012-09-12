@@ -27,7 +27,7 @@ namespace CDCP.UI
             controlConfig.VisibilitiesToCheck = Visibilities.GetVisibilites();
 
             controlConfig.DocumentOverrides = OverridesOptionCheckBox.Checked;
-            controlConfig.ExplicitInterfaceEventDocumentationRequired = InterfaceOptionCheckBox.Checked;
+            controlConfig.ExplicitInterfaceEventDocumentationRequired = ExplicitOptionCheckBox.Checked;
             controlConfig.InterfaceDeclarationDocumentationRequired = InterfaceOptionCheckBox.Checked;
             controlConfig.SummaryDocumentationRequired = SummaryDocumentationTagCheckBox.Checked;
         }
