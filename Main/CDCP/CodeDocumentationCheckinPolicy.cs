@@ -121,10 +121,12 @@ namespace CDCP
 
         private bool EqualsConfigFilterCriterias(PendingChange pendingChange)
         {
-            return !pendingChange.ChangeType.HasFlag(ChangeType.Delete) && // make sure we dont try to parse deleted files
-                    ".cs".Equals(Path.GetExtension(pendingChange.FileName), StringComparison.InvariantCultureIgnoreCase) && // make sure it is a C# file
-                    (!_config.SkipMerges || !pendingChange.ChangeType.HasFlag(ChangeType.Merge)) && // skip merges if set in options
-                    (!_config.SkipBranches || !pendingChange.ChangeType.HasFlag(ChangeType.Branch)); // skip branches if set in options
+			return !pendingChange.ChangeType.HasFlag(ChangeType.Delete) && // make sure we dont try to parse deleted files
+					".cs".Equals(Path.GetExtension(pendingChange.FileName), StringComparison.InvariantCultureIgnoreCase) && // make sure it is a C# file
+					(!_config.SkipMerges || !pendingChange.ChangeType.HasFlag(ChangeType.Merge)) && // skip merges if set in options
+					(!_config.SkipBranches || !pendingChange.ChangeType.HasFlag(ChangeType.Branch)) && // skip branches if set in options
+					(!_config.SkipRollbacks || !pendingChange.ChangeType.HasFlag(ChangeType.Rollback)) && // skip rollbacks if set in options
+					(!_config.SkipUndeletes || !pendingChange.ChangeType.HasFlag(ChangeType.Undelete)); // skip undeletes if set in options
         }
 
         private PolicyConfig GetDeserializedSettings()

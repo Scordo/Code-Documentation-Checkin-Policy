@@ -14,12 +14,16 @@ namespace CDCP.UI
         {
             SkipMergesCheckBox.Checked = config.SkipMerges;
             SkipBranchesCheckBox.Checked = config.SkipBranches;
+	        SkipRollbacksCheckBox.Checked = config.SkipRollbacks;
+	        SkipUndeletesCheckBox.Checked = config.SkipUndeletes;
         }
 
         void IPolicyConfigControl.WriteToConfig(PolicyConfig config)
         {
             config.SkipMerges = SkipMergesCheckBox.Checked;
             config.SkipBranches = SkipBranchesCheckBox.Checked;
+	        config.SkipRollbacks = SkipRollbacksCheckBox.Checked;
+	        config.SkipUndeletes = SkipUndeletesCheckBox.Checked;
         }
     }
 }

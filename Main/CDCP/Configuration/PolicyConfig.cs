@@ -16,6 +16,8 @@ namespace CDCP.Configuration
         public EnumConfig EnumConfig { get; set; }
         public bool SkipMerges { get; set; }
         public bool SkipBranches { get; set; }
+		public bool SkipRollbacks { get; set; }
+		public bool SkipUndeletes { get; set; }
 
         public static PolicyConfig GetDefault()
         {
@@ -30,8 +32,10 @@ namespace CDCP.Configuration
                 FieldConfig = FieldConfig.GetDefault(),
                 PropertyConfig = PropertyConfig.GetDefault(),
                 EnumConfig = EnumConfig.GetDefault(),
-                SkipMerges = false,
-                SkipBranches = true
+                SkipMerges = true,
+                SkipBranches = true,
+				SkipRollbacks = true,
+				SkipUndeletes = true
             };
         }
     }
