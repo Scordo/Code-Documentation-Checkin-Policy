@@ -15,6 +15,9 @@ namespace CDCP.Processing
         {
 	        ClassConfig config = policyConfig.InterfaceConfig;
 
+			if (!AnyVisibilityMatches(symbol.DeclaredAccessibility, config.VisibilitiesToCheck))
+				return;
+
 			DocumentationComment classDocumentation = symbol.GetDocumentationComment();
 
 			if (config.SampleDocumentationRequired && string.IsNullOrWhiteSpace(classDocumentation.ExampleTextOpt))
