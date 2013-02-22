@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using CDCP.Configuration;
+using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
 using System.Linq;
 
@@ -64,7 +65,7 @@ namespace CDCP.Processing
 
 		private static MethodDocumentationComment GetDocumentationComment(Symbol symbol)
 		{
-			// return symbol.GetDocumentationComment(); // this is buggy in roslyn
+			//DocumentationComment comment = symbol.GetDocumentationComment();
 
 
 			// this is a dirty workaround for a bug in roslyn
@@ -87,7 +88,7 @@ namespace CDCP.Processing
 		{
 			while (currentNode != null)
 			{
-				if (currentNode.Kind == SyntaxKind.MethodDeclaration)
+				if (currentNode.Kind == SyntaxKind.MethodDeclaration || currentNode.Kind == SyntaxKind.ConstructorDeclaration)
 					return currentNode;
 
 				currentNode = currentNode.Parent;
