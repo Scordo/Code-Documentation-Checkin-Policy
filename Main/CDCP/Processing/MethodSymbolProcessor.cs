@@ -88,7 +88,7 @@ namespace CDCP.Processing
 		{
 			while (currentNode != null)
 			{
-				if (currentNode.Kind == SyntaxKind.MethodDeclaration || currentNode.Kind == SyntaxKind.ConstructorDeclaration)
+				if (currentNode.Kind == SyntaxKind.MethodDeclaration || currentNode.Kind == SyntaxKind.ConstructorDeclaration || currentNode.Kind == SyntaxKind.DestructorDeclaration)
 					return currentNode;
 
 				currentNode = currentNode.Parent;
