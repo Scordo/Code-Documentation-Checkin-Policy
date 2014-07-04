@@ -1,0 +1,78 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CreateRelease" ToolsVersion="4">
+  <UsingTask TaskName="Zip" AssemblyFile="MSBuild.Community.Tasks.dll" />
+  <UsingTask TaskName="FileUpdate" AssemblyFile="MSBuild.Community.Tasks.dll" />
+  <UsingTask TaskName="Prompt" AssemblyFile="MSBuild.Community.Tasks.dll" />
+
+  <PropertyGroup>
+    <IncludeVersionInfo>false</IncludeVersionInfo>
+    <Configuration>Debug</Configuration>
+    <Solution_Root_Path>..\..\</Solution_Root_Path>
+    <BinDirectory>$(Solution_Root_Path)\CDCP\bin\$(Configuration)\</BinDirectory>
+    <Release_Destination_Base_Path>$(Solution_Root_Path)-= Releases =-\$(Configuration)\</Release_Destination_Base_Path>
+    <Release_Destination_Path>$(Release_Destination_Base_Path)Temp\</Release_Destination_Path>
+  </PropertyGroup>
+
+  <Target Name="CreateRelease">
+    <CallTarget Targets="BuildRelease"/>
+    <CallTarget Targets="CopyBuildOutput"/>
+    <CallTarget Targets="DetermineVersion"/>
+    <CallTarget Targets="CopyAdditionalStuff"/>
+    <CallTarget Targets="ZipIt"/>
+  </Target>
+
+  <Target Name="BuildRelease">
+    <MSBuild Projects="$(Solution_Root_Path)CDCP.sln" Properties="Configuration=$(Configuration)"/>
+  </Target>
+
+  <Target Name="DetermineVersion" Condition="'$(Version)' == ''">
+    <Prompt Text="Type Version to use: " Condition="'$(Version)' == '' AND '$(Configuration)' == 'Release'">
+      <Output TaskParameter="UserInput" PropertyName="Version" />
+    </Prompt>
+    
+    <GetAssemblyVersion FilePath="$(Release_Destination_Path)CDCP.dll" Condition="'$(Version)' == ''">
+      <Output TaskParameter="Version" PropertyName="Version"/>
+    </GetAssemblyVersion>
+  </Target>
+
+  <Target Name="CopyBuildOutput">
+    <ItemGroup>
+      <CDCP_BuildOutput Include="$(BinDirectory)CDCP.dll"/>
+      <CDCP_BuildOutput Include="$(BinDirectory)Roslyn*.dll"/>
+    </ItemGroup>
+    
+    <RemoveDir Directories="$(Release_Destination_Path)" ContinueOnError="true" />
+    <Copy SourceFiles="@(CDCP_BuildOutput)" DestinationFolder="$(Release_Destination_Path)%(RecursiveDir)" />
+  </Target>
+
+  <Target Name="CopyAdditionalStuff">
+    <Copy SourceFiles="$(Solution_Root_Path)CDCP\Deployment\[Content_Types].xml" DestinationFolder="$(Release_Destination_Path)" />
+    <Copy SourceFiles="$(Solution_Root_Path)CDCP\Deployment\extension.vsixmanifest" DestinationFolder="$(Release_Destination_Path)" />
+    <Copy SourceFiles="$(Solution_Root_Path)CDCP\Deployment\policies.pkgdef" DestinationFolder="$(Release_Destination_Path)" />
+
+    <FileUpdate Files="$(Release_Destination_Path)extension.vsixmanifest" Regex="\{Version\}" ReplacementText="$(Version)" />
+  </Target>
+
+  <Target Name="ZipIt">
+    <ItemGroup>
+      <FilesToZip Include="$(Release_Destination_Path)**\*.*"/>
+    </ItemGroup>
+
+    <Zip Files="@(FilesToZip)" WorkingDirectory="$(Release_Destination_Path)" ZipFileName="$(Release_Destination_Base_Path)CDCP_$(Version).vsix" Condition="'$(IncludeVersionInfo)' == 'true'" />
+    <Zip Files="@(FilesToZip)" WorkingDirectory="$(Release_Destination_Path)" ZipFileName="$(Release_Destination_Base_Path)CDCP.vsix" Condition="'$(IncludeVersionInfo)' == 'false'" />
+
+    <RemoveDir Directories="$(Release_Destination_Path)" ContinueOnError="true" />
+  </Target>
+
+  <UsingTask TaskName="GetAssemblyVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <FilePath ParameterType="System.String" Required="true" />
+      <Version ParameterType="System.String" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.Diagnostics" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[ Version = FileVersionInfo.GetVersionInfo(FilePath).FileVersion; ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+</Project>

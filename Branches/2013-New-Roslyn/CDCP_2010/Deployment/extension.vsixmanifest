@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
+  <Identifier Id="CDCP_2010.DNE.236B7792-CD20-4D5E-B5D3-B1ECA36E5CCB">
+    <Name>Code Documentation Checking Policy</Name>
+    <Author>DNE - Jens Hofmann</Author>
+    <Version>{Version}</Version>
+    <Description xml:space="preserve">Code Documentation Checking Policy.</Description>
+    <Locale>1033</Locale>
+    <SupportedProducts>
+      <VisualStudio Version="10.0">
+        <Edition>Pro</Edition>
+      </VisualStudio>
+    </SupportedProducts>
+    <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.5" />
+  </Identifier>
+  <References />
+  <Content>
+    <VsPackage>policies.pkgdef</VsPackage>
+  </Content>
+</Vsix>
