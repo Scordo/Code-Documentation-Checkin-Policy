@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using CDCP.Configuration;
 using CDCP.Processing;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace CDCP
 {
@@ -16,22 +16,38 @@ namespace CDCP
 			if (!File.Exists(filePath))
 				throw new FileNotFoundException(string.Format("Could not find file '{0}'", filePath));
 
-			if (policyConfig == null)
-				throw new ArgumentNullException("policyConfig");
-
-			SyntaxTree tree = SyntaxTree.ParseFile(filePath);
-			MetadataReference mscorlib = new MetadataFileReference(typeof(object).Assembly.Location);
-			Compilation compilation = Compilation.Create(Guid.NewGuid().ToString("N")).AddReferences(mscorlib).AddSyntaxTrees(tree);
-			IEnumerable<Symbol> allSymbols = compilation.GlobalNamespace.GetMembers().AsEnumerable().Where(m => m.Locations.Any(l => l.IsInSource));
-			ISymbolProcessorFactory symbolFactory = GetSymbolProcessorFactory();
-			
-			ViolationStore result = new ViolationStore();
-			
-			foreach (Symbol symbol in allSymbols)
-				symbolFactory.CreateSymbolProcessor(symbol).Process(symbol, policyConfig, result);
-
-			return result;
+            SyntaxTree tree = CSharpSyntaxTree.ParseFile(filePath);
+		    
+            return CheckFileDocumentation(tree, policyConfig);
 		}
+
+        public ViolationStore CheckCodeDocumentation(string csharpCode, PolicyConfig policyConfig)
+        {
+            if (csharpCode == null)
+                throw new ArgumentNullException("csharpCode");
+
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(csharpCode);
+
+            return CheckFileDocumentation(tree, policyConfig);
+        }
+
+	    private ViolationStore CheckFileDocumentation(SyntaxTree tree, PolicyConfig policyConfig)
+	    {
+            if (policyConfig == null)
+                throw new ArgumentNullException("policyConfig");
+
+            MetadataReference mscorlib = new MetadataFileReference(typeof(object).Assembly.Location);
+            CSharpCompilation compilation = CSharpCompilation.Create(Guid.NewGuid().ToString("N")).AddReferences(mscorlib).AddSyntaxTrees(tree);
+            IEnumerable<INamespaceOrTypeSymbol> allSymbols = compilation.GlobalNamespace.GetMembers().AsEnumerable().Where(m => m.Locations.Any(l => l.IsInSource));
+            ISymbolProcessorFactory symbolFactory = GetSymbolProcessorFactory();
+
+            ViolationStore result = new ViolationStore();
+
+            foreach (INamespaceOrTypeSymbol symbol in allSymbols)
+                symbolFactory.CreateSymbolProcessor(symbol).Process(symbol, policyConfig, result);
+
+            return result;
+	    }
 
 		public ISymbolProcessorFactory GetSymbolProcessorFactory()
 		{

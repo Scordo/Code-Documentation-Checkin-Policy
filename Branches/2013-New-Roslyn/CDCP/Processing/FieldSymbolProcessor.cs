@@ -1,21 +1,20 @@
 ﻿using CDCP.Configuration;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace CDCP.Processing
 {
     internal class FieldSymbolProcessor : SymbolProcessorBase
     {
-        protected override void Process(Symbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
+        protected override void Process(ISymbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
         {
             FieldConfig config = policyConfig.FieldConfig;
 			
             if ((!AnyVisibilityMatches(symbol.DeclaredAccessibility, config.VisibilitiesToCheck) || !symbol.CanBeReferencedByName))
                 return;
             
-            DocumentationComment documentation = symbol.GetDocumentationComment();
+            IDocumentationComment documentation = symbol.GetDocumentationComment();
 
-            if (config.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(documentation.SummaryTextOpt))
+            if (config.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(documentation.SummaryText))
                 violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingSummaryDocumentation, symbol));
         }
     }
