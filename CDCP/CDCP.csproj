@@ -137,7 +137,6 @@
     <Compile Include="Processing\DelegateSymbolProcessor.cs" />
     <Compile Include="Processing\DocumentationComment.cs" />
     <Compile Include="Processing\IDocumentationComment.cs" />
-    <Compile Include="Processing\MethodDocumentationComment.cs" />
     <Compile Include="Processing\EnumSymbolProcessor.cs" />
     <Compile Include="Processing\EventSymbolProcessor.cs" />
     <Compile Include="Processing\FieldSymbolProcessor.cs" />
