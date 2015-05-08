@@ -1,24 +1,22 @@
 ﻿using System.Collections.Generic;
 using CDCP.Configuration;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
-using Roslyn.Compilers.Common;
+using Microsoft.CodeAnalysis;
 using System.Linq;
 
 namespace CDCP.Processing
 {
     internal abstract class SymbolProcessorBase : ISymbolProcessor
     {
-        void ISymbolProcessor.Process(Symbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
+        void ISymbolProcessor.Process(ISymbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
         {
             Process(symbol, policyConfig, violationReporter);
         }
 
-		protected abstract void Process(Symbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter);
+        protected abstract void Process(ISymbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter);
 
 		protected void ProcessChildren(INamespaceOrTypeSymbol namespaceOrTypeSymbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
 		{
-			foreach (Symbol childSymbol in namespaceOrTypeSymbol.GetMembers())
+            foreach (ISymbol childSymbol in namespaceOrTypeSymbol.GetMembers())
 				new CodeCommentsFacade().GetSymbolProcessorFactory().CreateSymbolProcessor(childSymbol).Process(childSymbol, policyConfig, violationReporter);
 		}
 
@@ -26,11 +24,11 @@ namespace CDCP.Processing
         {
 			return visibility.Any(v => v == VisibilityMapper.ToVisibility(accessibility));
         }
-		
-        protected Violation ViolationFromSymbol(string message, Symbol symbol)
+
+        protected Violation ViolationFromSymbol(string message, ISymbol symbol)
         {
             Location symbolLocation = symbol.Locations.First();
-            FileLinePositionSpan lineSpan = symbolLocation.SourceTree.GetLineSpan(symbolLocation.SourceSpan, false);
+            FileLinePositionSpan lineSpan = symbolLocation.SourceTree.GetLineSpan(symbolLocation.SourceSpan);
 
             return new Violation
             {
@@ -44,7 +42,7 @@ namespace CDCP.Processing
             };
         }
 
-        private string GetParentSymbolName(Symbol currentSymbol)
+        private string GetParentSymbolName(ISymbol currentSymbol)
         {
             if (currentSymbol.ContainingType != null)
                 return string.Format("{0}.{1}", GetParentSymbolName(currentSymbol.ContainingType), currentSymbol.ContainingType.Name).TrimStart('.');
@@ -52,7 +50,7 @@ namespace CDCP.Processing
             return null;
         }
 
-        private string GetNamespace(NamespaceSymbol namespaceSymbol)
+        private string GetNamespace(INamespaceSymbol namespaceSymbol)
         {
             if (namespaceSymbol.ContainingNamespace != null)
                 return string.Format("{0}.{1}", GetNamespace(namespaceSymbol.ContainingNamespace), namespaceSymbol.Name).TrimStart('.');

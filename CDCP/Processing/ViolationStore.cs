@@ -16,5 +16,7 @@ namespace CDCP.Processing
             if (violation != null)
                 _violations.Add(violation);
         }
+
+        public bool HasViolations { get { return _violations.Count > 0; }}
     }
 }

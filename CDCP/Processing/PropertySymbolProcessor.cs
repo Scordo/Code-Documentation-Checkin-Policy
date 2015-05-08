@@ -1,12 +1,11 @@
 ﻿using CDCP.Configuration;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace CDCP.Processing
 {
     internal class PropertySymbolProcessor : SymbolProcessorBase
     {
-        protected override void Process(Symbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
+        protected override void Process(ISymbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
         {
             PropertyConfig config = policyConfig.PropertyConfig;
 
@@ -16,7 +15,7 @@ namespace CDCP.Processing
 			if (symbol.ContainingType != null && symbol.ContainingType.TypeKind == TypeKind.Interface && !config.InterfaceDeclarationDocumentationRequired)
 				return;
             
-            PropertySymbol propertySymbol = (PropertySymbol)symbol;
+            IPropertySymbol propertySymbol = (IPropertySymbol)symbol;
 
             if (!propertySymbol.CanBeReferencedByName && !config.ExplicitInterfacePropertyDocumentationRequired)
                 return;
@@ -24,12 +23,12 @@ namespace CDCP.Processing
             if (!AnyVisibilityMatches(symbol.DeclaredAccessibility, config.VisibilitiesToCheck) && propertySymbol.CanBeReferencedByName)
                 return;
             
-            DocumentationComment documentation = symbol.GetDocumentationComment();
+            IDocumentationComment documentation = symbol.GetDocumentationComment();
             
-            if (config.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(documentation.SummaryTextOpt))
+            if (config.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(documentation.SummaryText))
                 violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingSummaryDocumentation, symbol));
 
-            if (config.ResultDocumentationRequired && !propertySymbol.IsWriteOnly && string.IsNullOrWhiteSpace(documentation.ReturnsTextOpt))
+            if (config.ResultDocumentationRequired && !propertySymbol.IsWriteOnly && string.IsNullOrWhiteSpace(documentation.ReturnsText))
                 violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingReturnsDocumentation, symbol));
         }
     }
