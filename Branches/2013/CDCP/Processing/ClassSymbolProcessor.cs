@@ -1,6 +1,5 @@
 ﻿using CDCP.Configuration;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace CDCP.Processing
 {
@@ -11,24 +10,24 @@ namespace CDCP.Processing
             get { return TypeKind.Class; }
         }
 
-        protected override void ProcessInternal(NamedTypeSymbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
+        protected override void ProcessInternal(INamedTypeSymbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
         {
             ClassConfig classConfig = policyConfig.ClassConfig;
 
             if (!AnyVisibilityMatches(symbol.DeclaredAccessibility, classConfig.VisibilitiesToCheck))
                 return;
 
-            DocumentationComment classDocumentation = symbol.GetDocumentationComment();
+            IDocumentationComment classDocumentation = symbol.GetDocumentationComment();
 
-            if (classConfig.SampleDocumentationRequired && string.IsNullOrWhiteSpace(classDocumentation.ExampleTextOpt))
+            if (classConfig.SampleDocumentationRequired && string.IsNullOrWhiteSpace(classDocumentation.ExampleText))
                 violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingSampleDocumentation, symbol));
 
-            if (classConfig.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(classDocumentation.SummaryTextOpt))
+            if (classConfig.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(classDocumentation.SummaryText))
                 violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingSummaryDocumentation, symbol));
 
-            if (!symbol.TypeParameters.IsNullOrEmpty && classConfig.GenericParameterDocumentationRequired)
+            if (!symbol.TypeParameters.IsEmpty && classConfig.GenericParameterDocumentationRequired)
             {
-                foreach (TypeParameterSymbol typeParameter in symbol.TypeParameters)
+                foreach (ITypeParameterSymbol typeParameter in symbol.TypeParameters)
                 {
                     if (string.IsNullOrWhiteSpace(classDocumentation.GetTypeParameterText(typeParameter.Name)))
                         violationReporter.Report(ViolationFromSymbol(string.Format(ViolationMessage.MissingTypeParameter, typeParameter.Name), symbol));
