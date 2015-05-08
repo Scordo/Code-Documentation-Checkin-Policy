@@ -100,10 +100,16 @@ namespace CDCP
         {
 #if V2010 
 			DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.10.0");
-#else
+#endif
+
+#if VS2012
 			DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.11.0");
 #endif
-			if (ide == null)
+
+#if VS2013
+			DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.12.0");
+#endif
+            if (ide == null)
                 return;
 
             Document document = ide.Documents.Open(policyFailure.Violation.Filepath);
