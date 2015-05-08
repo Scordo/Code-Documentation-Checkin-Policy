@@ -1,7 +1,7 @@
 ﻿namespace CDCP.Processing
 {
-    public interface IViolationReporter
-    {
-        void Report(Violation violation);
-    }
+  public interface IViolationReporter
+  {
+    void Report(Violation violation);
+  }
 }

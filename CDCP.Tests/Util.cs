@@ -2,14 +2,14 @@
 
 namespace CDCP.Tests
 {
-    public static class Util
+  public static class Util
+  {
+    public static string GetFileContent(string name)
     {
-        public static string GetFileContent(string name)
-        {
-            using (StreamReader reader = new StreamReader(typeof(Util).Assembly.GetManifestResourceStream("CDCP.Tests.SampleCode." + name)))
-            {
-                return reader.ReadToEnd();
-            }
-        }
+      using (StreamReader reader = new StreamReader(typeof(Util).Assembly.GetManifestResourceStream("CDCP.Tests.SampleCode." + name)))
+      {
+        return reader.ReadToEnd();
+      }
     }
+  }
 }

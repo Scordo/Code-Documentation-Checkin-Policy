@@ -15,7 +15,7 @@ namespace CDCP
     {
       if (!File.Exists(filePath))
         throw new FileNotFoundException($"Could not find file '{filePath}'");
-      
+
       SyntaxTree tree = CSharpSyntaxTree.ParseText(File.ReadAllText(filePath));
 
       return CheckFileDocumentation(tree, policyConfig);
@@ -35,7 +35,7 @@ namespace CDCP
     {
       if (policyConfig == null)
         throw new ArgumentNullException(nameof(policyConfig));
-      
+
       MetadataReference mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
       CSharpCompilation compilation = CSharpCompilation.Create(Guid.NewGuid().ToString("N")).AddReferences(mscorlib).AddSyntaxTrees(tree);
       IEnumerable<INamespaceOrTypeSymbol> allSymbols = compilation.GlobalNamespace.GetMembers().AsEnumerable().Where(m => m.Locations.Any(l => l.IsInSource));

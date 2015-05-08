@@ -2,8 +2,8 @@
 
 namespace CDCP.Processing
 {
-    public interface ISymbolProcessorFactory
-    {
-        ISymbolProcessor CreateSymbolProcessor(ISymbol symbol);
-    }
+  public interface ISymbolProcessorFactory
+  {
+    ISymbolProcessor CreateSymbolProcessor(ISymbol symbol);
+  }
 }
