@@ -1,5 +1,5 @@
 ﻿using System;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace CDCP.Configuration
 {
@@ -15,9 +15,7 @@ namespace CDCP.Configuration
 					return Visibility.Protected;
 				case Accessibility.ProtectedAndInternal:
 					return Visibility.ProtectedInternal;
-				case Accessibility.ProtectedInternal:
-					return Visibility.ProtectedInternal;
-				case Accessibility.Internal:
+                case Accessibility.Internal:
 					return Visibility.Internal;
 				case Accessibility.Private:
 					return Visibility.Private;

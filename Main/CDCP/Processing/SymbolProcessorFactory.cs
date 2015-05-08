@@ -1,17 +1,17 @@
-﻿using Roslyn.Compilers.CSharp;
+﻿using Microsoft.CodeAnalysis;
 
 namespace CDCP.Processing
 {
     public class SymbolProcessorFactory : ISymbolProcessorFactory
     {
-        ISymbolProcessor ISymbolProcessorFactory.CreateSymbolProcessor(Symbol symbol)
+        ISymbolProcessor ISymbolProcessorFactory.CreateSymbolProcessor(ISymbol symbol)
         {
             switch (symbol.Kind)
             {
                 case SymbolKind.Namespace: 
                     return new NamespaceSymbolProcessor();
                 case SymbolKind.NamedType:
-                    return GetSymbolProcessorForNamedType((NamedTypeSymbol) symbol);
+                    return GetSymbolProcessorForNamedType((INamedTypeSymbol) symbol);
                 case SymbolKind.Method:
                     return new MethodSymbolProcessor();
                 case SymbolKind.Property:
@@ -25,7 +25,7 @@ namespace CDCP.Processing
             }
         }
 
-        private static ISymbolProcessor GetSymbolProcessorForNamedType(NamedTypeSymbol namedTypeSymbol)
+        private static ISymbolProcessor GetSymbolProcessorForNamedType(INamedTypeSymbol namedTypeSymbol)
         {
             switch (namedTypeSymbol.TypeKind)
             {

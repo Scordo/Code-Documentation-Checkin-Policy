@@ -1,6 +1,5 @@
 ﻿using CDCP.Configuration;
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace CDCP.Processing
 {
@@ -11,7 +10,7 @@ namespace CDCP.Processing
             get { return TypeKind.Delegate; }
         }
 
-        protected override void ProcessInternal(NamedTypeSymbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
+        protected override void ProcessInternal(INamedTypeSymbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
         {
             DelegateConfig config = policyConfig.DelegateConfig;
 
@@ -21,29 +20,29 @@ namespace CDCP.Processing
             if (symbol.DelegateInvokeMethod == null)
                 return;
 
-            DocumentationComment documentation = symbol.GetDocumentationComment();
+            IDocumentationComment documentation = symbol.GetDocumentationComment();
 
-            if (config.SampleDocumentationRequired && string.IsNullOrWhiteSpace(documentation.ExampleTextOpt))
+            if (config.SampleDocumentationRequired && string.IsNullOrWhiteSpace(documentation.ExampleText))
                 violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingSampleDocumentation, symbol));
 
-            if (config.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(documentation.SummaryTextOpt))
+            if (config.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(documentation.SummaryText))
                 violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingSummaryDocumentation, symbol));
 
-            if (config.ResultDocumentationRequired && !symbol.DelegateInvokeMethod.ReturnsVoid && string.IsNullOrWhiteSpace(documentation.ReturnsTextOpt))
+            if (config.ResultDocumentationRequired && !symbol.DelegateInvokeMethod.ReturnsVoid && string.IsNullOrWhiteSpace(documentation.ReturnsText))
                 violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingReturnsDocumentation, symbol));
 
-            if (config.ParameterDocumentationRequired && !symbol.DelegateInvokeMethod.Parameters.IsNullOrEmpty)
+            if (config.ParameterDocumentationRequired && !symbol.DelegateInvokeMethod.Parameters.IsEmpty)
             {
-                foreach (ParameterSymbol parameterSymbol in symbol.DelegateInvokeMethod.Parameters)
+                foreach (IParameterSymbol parameterSymbol in symbol.DelegateInvokeMethod.Parameters)
                 {
                     if (string.IsNullOrWhiteSpace(documentation.GetParameterText(parameterSymbol.Name)))
                         violationReporter.Report(ViolationFromSymbol(string.Format(ViolationMessage.MissingParameter, parameterSymbol.Name), symbol));
                 }
             }
 
-            if (config.GenericParameterDocumentationRequired && !symbol.TypeParameters.IsNullOrEmpty)
+            if (config.GenericParameterDocumentationRequired && !symbol.TypeParameters.IsEmpty)
             {
-                foreach (TypeParameterSymbol typeParameter in symbol.TypeParameters)
+                foreach (ITypeParameterSymbol typeParameter in symbol.TypeParameters)
                 {
                     if (string.IsNullOrWhiteSpace(documentation.GetTypeParameterText(typeParameter.Name)))
                         violationReporter.Report(ViolationFromSymbol(string.Format(ViolationMessage.MissingTypeParameter, typeParameter.Name), symbol));

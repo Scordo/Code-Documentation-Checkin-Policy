@@ -1,9 +1,9 @@
-﻿using Roslyn.Compilers.CSharp;
+﻿using Microsoft.CodeAnalysis;
 
 namespace CDCP.Processing
 {
     public interface ISymbolProcessorFactory
     {
-        ISymbolProcessor CreateSymbolProcessor(Symbol symbol);
+        ISymbolProcessor CreateSymbolProcessor(ISymbol symbol);
     }
 }
