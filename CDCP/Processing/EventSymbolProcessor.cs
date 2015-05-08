@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace CDCP.Processing
 {
-	internal class EventSymbolProcessor : SymbolProcessorBase
-	{
-		protected override void Process(Symbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
-		{
-			EventConfig config = policyConfig.EventConfig;
+    internal class EventSymbolProcessor : SymbolProcessorBase
+    {
+        protected override void Process(Symbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter)
+        {
+            EventConfig config = policyConfig.EventConfig;
 
 			if (symbol.IsOverride && !config.DocumentOverrides)
 				return;
@@ -23,13 +23,13 @@ namespace CDCP.Processing
 				return;
 
 			if (!AnyVisibilityMatches(symbol.DeclaredAccessibility, config.VisibilitiesToCheck) && symbol.CanBeReferencedByName)
-				return;
+                return;
 
 			DocumentationComment documentation = GetDocumentationComment(symbol);
 
-			if (config.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(documentation.SummaryTextOpt))
-				violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingSummaryDocumentation, symbol));
-		}
+            if (config.SummaryDocumentationRequired && string.IsNullOrWhiteSpace(documentation.SummaryTextOpt))
+                violationReporter.Report(ViolationFromSymbol(ViolationMessage.MissingSummaryDocumentation, symbol));
+        }
 
 		private static DocumentationComment GetDocumentationComment(Symbol symbol)
 		{
@@ -39,11 +39,11 @@ namespace CDCP.Processing
 			// this is a dirty workaround for a bug in roslyn
 			try
 			{
-				SyntaxNode realEventNode = GetEventSyntaxNode(GetCurrentSyntaxNode(symbol));
-				SyntaxTrivia syntaxTrivia = realEventNode.GetLeadingTrivia().First(t => t.Kind == SyntaxKind.DocumentationCommentTrivia);
-				DocumentationCommentTriviaSyntax documentation = (DocumentationCommentTriviaSyntax)syntaxTrivia.GetStructure();
+				SyntaxNode currentNode = GetCurrentSyntaxNode(symbol);
+				SyntaxNode realEventNode = GetEventSyntaxNode(currentNode);
+				DocumentationCommentSyntax documentationSyntax = (DocumentationCommentSyntax)realEventNode.GetLeadingTrivia().First(t => t.Kind == SyntaxKind.DocumentationComment).GetStructure();
 
-				return DocumentationComment.FromXmlFragment(documentation.GetInteriorXml());
+				return DocumentationComment.FromXmlFragment(documentationSyntax.GetInteriorXml());
 			}
 			catch
 			{
@@ -75,5 +75,5 @@ namespace CDCP.Processing
 				return null;
 			}
 		}
-	}
+    }
 }
