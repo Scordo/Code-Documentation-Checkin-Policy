@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AB10C1FB-74EC-43E0-8CB7-463BC7F37DAC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CDCP</RootNamespace>
+    <AssemblyName>CDCP</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;VS2015</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;VS2015</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="envdte80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.TeamFoundation.VersionControl.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\Microsoft.TeamFoundation.VersionControl.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers">
+      <HintPath>..\Components\Roslyn.Compilers.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers.CSharp">
+      <HintPath>..\Components\Roslyn.Compilers.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeCommentsFacade.cs" />
+    <Compile Include="CodeDocumentationCheckinPolicy.cs" />
+    <Compile Include="CodeDocumentationPolicyFailure.cs" />
+    <Compile Include="Configuration\ClassConfig.cs" />
+    <Compile Include="Configuration\ConfigBase.cs" />
+    <Compile Include="Configuration\DelegateConfig.cs" />
+    <Compile Include="Configuration\EnumConfig.cs" />
+    <Compile Include="Configuration\EventConfig.cs" />
+    <Compile Include="Configuration\FieldConfig.cs" />
+    <Compile Include="Configuration\MethodConfig.cs" />
+    <Compile Include="Configuration\PolicyConfig.cs" />
+    <Compile Include="Configuration\PropertyConfig.cs" />
+    <Compile Include="Configuration\Visibility.cs" />
+    <Compile Include="Configuration\VisibilityMapper.cs" />
+    <Compile Include="Processing\ClassSymbolProcessor.cs" />
+    <Compile Include="Processing\DelegateSymbolProcessor.cs" />
+    <Compile Include="Processing\MethodDocumentationComment.cs" />
+    <Compile Include="Processing\EnumSymbolProcessor.cs" />
+    <Compile Include="Processing\EventSymbolProcessor.cs" />
+    <Compile Include="Processing\FieldSymbolProcessor.cs" />
+    <Compile Include="Processing\InterfaceSymbolProcessor.cs" />
+    <Compile Include="Processing\ISymbolProcessor.cs" />
+    <Compile Include="Processing\ISymbolProcessorFactory.cs" />
+    <Compile Include="Processing\IViolationReporter.cs" />
+    <Compile Include="Processing\MethodSymbolProcessor.cs" />
+    <Compile Include="Processing\NamedTypeSymbolProcessorBase.cs" />
+    <Compile Include="Processing\NamespaceSymbolProcessor.cs" />
+    <Compile Include="Processing\PropertySymbolProcessor.cs" />
+    <Compile Include="Processing\StructSymbolProcessor.cs" />
+    <Compile Include="Processing\SymbolProcessorBase.cs" />
+    <Compile Include="Processing\SymbolProcessorFactory.cs" />
+    <Compile Include="Processing\UnsupportedSymbolProcessory.cs" />
+    <Compile Include="Processing\Violation.cs" />
+    <Compile Include="Processing\ViolationMessage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViolationMessage.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Processing\ViolationStore.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\ClassesConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ClassesConfigControl.Designer.cs">
+      <DependentUpon>ClassesConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DelegatesConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DelegatesConfigControl.Designer.cs">
+      <DependentUpon>DelegatesConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\EnumsConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\EnumsConfigControl.Designer.cs">
+      <DependentUpon>EnumsConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\EventsConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\EventsConfigControl.Designer.cs">
+      <DependentUpon>EventsConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FieldsConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\FieldsConfigControl.Designer.cs">
+      <DependentUpon>FieldsConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\GeneralConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\GeneralConfigControl.Designer.cs">
+      <DependentUpon>GeneralConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\InterfacesConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\IPolicyConfigControl.cs" />
+    <Compile Include="UI\MethodsConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\MethodsConfigControl.Designer.cs">
+      <DependentUpon>MethodsConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PolicyConfigSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\PolicyConfigSettingsForm.Designer.cs">
+      <DependentUpon>PolicyConfigSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PropertiesConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\PropertiesConfigControl.Designer.cs">
+      <DependentUpon>PropertiesConfigControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\StructsConfigControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\VisibilityControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\VisibilityControl.Designer.cs">
+      <DependentUpon>VisibilityControl.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Deployment\CreateDebugReleaseAndInstall.bat" />
+    <None Include="Deployment\CreateProdRelease.bat" />
+    <None Include="Deployment\CreateDebugRelease.bat" />
+    <None Include="Deployment\Deployment.target" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Processing\ViolationMessage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViolationMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ClassesConfigControl.resx">
+      <DependentUpon>ClassesConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DelegatesConfigControl.resx">
+      <DependentUpon>DelegatesConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\EnumsConfigControl.resx">
+      <DependentUpon>EnumsConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\EventsConfigControl.resx">
+      <DependentUpon>EventsConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FieldsConfigControl.resx">
+      <DependentUpon>FieldsConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GeneralConfigControl.resx">
+      <DependentUpon>GeneralConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MethodsConfigControl.resx">
+      <DependentUpon>MethodsConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PolicyConfigSettingsForm.resx">
+      <DependentUpon>PolicyConfigSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PropertiesConfigControl.resx">
+      <DependentUpon>PropertiesConfigControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\VisibilityControl.resx">
+      <DependentUpon>VisibilityControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Deployment\extension.vsixmanifest" />
+    <Content Include="Deployment\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="Deployment\MSBuild.Community.Tasks.dll" />
+    <Content Include="Deployment\policies.pkgdef" />
+    <Content Include="Deployment\[Content_Types].xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
