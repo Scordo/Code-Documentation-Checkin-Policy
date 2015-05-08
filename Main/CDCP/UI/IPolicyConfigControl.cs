@@ -2,9 +2,9 @@
 
 namespace CDCP.UI
 {
-    interface IPolicyConfigControl
-    {
-        void ReadFromConfig(PolicyConfig config);
-        void WriteToConfig(PolicyConfig config);
-    }
+  interface IPolicyConfigControl
+  {
+    void ReadFromConfig(PolicyConfig config);
+    void WriteToConfig(PolicyConfig config);
+  }
 }

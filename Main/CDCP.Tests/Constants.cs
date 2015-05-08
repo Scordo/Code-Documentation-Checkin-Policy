@@ -1,7 +1,7 @@
 ﻿namespace CDCP.Tests
 {
-    internal class Constants
-    {
-        public const string MissingSummaryMessage = "Missing summary documentation";
-    }
+  internal class Constants
+  {
+    public const string MissingSummaryMessage = "Missing summary documentation";
+  }
 }
