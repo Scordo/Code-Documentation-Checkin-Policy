@@ -78,7 +78,7 @@ namespace CDCP
 
       foreach (PendingChange pendingChange in PendingCheckin.PendingChanges.CheckedPendingChanges.Where(EqualsConfigFilterCriterias))
       {
-        failures.AddRange(facade.CheckFileDocumentation(pendingChange.LocalItem, _config ?? PolicyConfig.GetDefault()).Violations.Select(v => new CodeDocumentationPolicyFailure(v, pendingChange, this)));
+        failures.AddRange(facade.CheckFileDocumentation(pendingChange.LocalItem, _config ?? new PolicyConfig().LoadDefaults()).Violations.Select(v => new CodeDocumentationPolicyFailure(v, pendingChange, this)));
       }
 
       return failures.ToArray();
@@ -149,7 +149,7 @@ namespace CDCP
       }
       catch (Exception)
       {
-        return PolicyConfig.GetDefault();
+        return new PolicyConfig().LoadDefaults();
       }
     }
 
@@ -157,7 +157,7 @@ namespace CDCP
     {
       XmlSerializer serializer = new XmlSerializer(typeof(PolicyConfig));
       StringWriter writer = new StringWriter();
-      serializer.Serialize(writer, _config ?? PolicyConfig.GetDefault());
+      serializer.Serialize(writer, _config ?? new PolicyConfig().LoadDefaults());
 
       return writer.ToString();
     }

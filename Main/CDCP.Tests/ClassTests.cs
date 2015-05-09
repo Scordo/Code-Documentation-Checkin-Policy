@@ -13,7 +13,7 @@ namespace CDCP.Tests
     public void SingleClassWithFilledSummary()
     {
       string fileContent = Util.GetFileContent("Single class with filled summary.txt");
-      PolicyConfig config = PolicyConfig.GetDefault();
+      PolicyConfig config = new PolicyConfig().LoadDefaults();
 
       ViolationStore violationStore = new CodeCommentsFacade().CheckCodeDocumentation(fileContent, config);
       Assert.IsFalse(violationStore.HasViolations);
@@ -23,7 +23,7 @@ namespace CDCP.Tests
     public void SingleClassWithEmptySummary()
     {
       string fileContent = Util.GetFileContent("Single class with empty summary.txt");
-      PolicyConfig config = PolicyConfig.GetDefault();
+      PolicyConfig config = new PolicyConfig().LoadDefaults();
 
       ViolationStore violationStore = new CodeCommentsFacade().CheckCodeDocumentation(fileContent, config);
       List<Violation> violations = violationStore.Violations.ToList();

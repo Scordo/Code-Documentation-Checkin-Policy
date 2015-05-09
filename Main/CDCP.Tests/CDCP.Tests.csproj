@@ -118,9 +118,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="PropertyTests.cs" />
     <Compile Include="ClassTests.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="SampleCode\Properties\P1_No_Summary.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
