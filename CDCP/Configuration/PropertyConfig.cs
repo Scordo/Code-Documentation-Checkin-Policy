@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace CDCP.Configuration
 {
@@ -11,17 +10,22 @@ namespace CDCP.Configuration
     public bool InterfaceDeclarationDocumentationRequired { get; set; }
     public bool DocumentOverrides { get; set; }
 
-    public static new PropertyConfig GetDefault()
+    public override void LoadDefaults()
     {
-      return new PropertyConfig
-      {
-        VisibilitiesToCheck = new HashSet<Visibility> { Visibility.Public, Visibility.Protected, Visibility.ProtectedInternal, Visibility.Internal },
-        SummaryDocumentationRequired = true,
-        ResultDocumentationRequired = true,
-        ExplicitInterfacePropertyDocumentationRequired = false,
-        InterfaceDeclarationDocumentationRequired = true,
-        DocumentOverrides = false
-      };
+      base.LoadDefaults();
+      ResultDocumentationRequired = true;
+      ExplicitInterfacePropertyDocumentationRequired = false;
+      InterfaceDeclarationDocumentationRequired = true;
+      DocumentOverrides = false;
+    }
+
+    public override void ToggleRuleActivation(bool activate)
+    {
+      base.ToggleRuleActivation(activate);
+      ResultDocumentationRequired = activate;
+      ExplicitInterfacePropertyDocumentationRequired = activate;
+      InterfaceDeclarationDocumentationRequired = activate;
+      DocumentOverrides = activate;
     }
   }
 }

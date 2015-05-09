@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace CDCP.Configuration
 {
@@ -11,17 +10,22 @@ namespace CDCP.Configuration
     public bool GenericParameterDocumentationRequired { get; set; }
     public bool ResultDocumentationRequired { get; set; }
 
-    public static DelegateConfig GetDefault()
+    public override void LoadDefaults()
     {
-      return new DelegateConfig
-      {
-        VisibilitiesToCheck = new HashSet<Visibility> { Visibility.Public, Visibility.Protected, Visibility.ProtectedInternal, Visibility.Internal },
-        SampleDocumentationRequired = false,
-        SummaryDocumentationRequired = true,
-        ParameterDocumentationRequired = true,
-        GenericParameterDocumentationRequired = true,
-        ResultDocumentationRequired = true
-      };
+      base.LoadDefaults();
+      SampleDocumentationRequired = false;
+      ParameterDocumentationRequired = true;
+      GenericParameterDocumentationRequired = true;
+      ResultDocumentationRequired = true;
+    }
+
+    public override void ToggleRuleActivation(bool activate)
+    {
+      base.ToggleRuleActivation(activate);
+      SampleDocumentationRequired = activate;
+      ParameterDocumentationRequired = activate;
+      GenericParameterDocumentationRequired = activate;
+      ResultDocumentationRequired = activate;
     }
   }
 }

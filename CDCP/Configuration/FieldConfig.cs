@@ -6,13 +6,10 @@ namespace CDCP.Configuration
   [Serializable]
   public class FieldConfig : ConfigBase
   {
-    public static FieldConfig GetDefault()
+    public override void LoadDefaults()
     {
-      return new FieldConfig
-      {
-        VisibilitiesToCheck = new HashSet<Visibility> { Visibility.Public, Visibility.Protected, Visibility.ProtectedInternal, Visibility.Internal },
-        SummaryDocumentationRequired = true,
-      };
+      base.LoadDefaults();
+      VisibilitiesToCheck = new HashSet<Visibility> { Visibility.Public, Visibility.Protected, Visibility.ProtectedInternal, Visibility.Internal };
     }
   }
 }

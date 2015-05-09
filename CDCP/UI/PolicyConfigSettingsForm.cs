@@ -27,7 +27,7 @@ namespace CDCP.UI
     private void ResetToDefaultsButton_Click(object sender, System.EventArgs e)
     {
       if (MessageBox.Show("Do you really want to reset the settings to the policy defaults?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-        ((IPolicyConfigControl)this).ReadFromConfig(PolicyConfig.GetDefault());
+        ((IPolicyConfigControl)this).ReadFromConfig(new PolicyConfig().LoadDefaults());
     }
   }
 }
