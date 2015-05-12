@@ -37,6 +37,7 @@
   <Target Name="CopyBuildOutput">
     <ItemGroup>
       <CDCP_BuildOutput Include="$(BinDirectory)*.dll" Exclude="$(BinDirectory)*TeamFoundation*;$(BinDirectory)*WITDataStore*"/>
+      <CDCP_BuildOutput Include="$(BinDirectory)*.pdb" Condition="'$(Configuration)' == 'Debug'" />
     </ItemGroup>
     
     <RemoveDir Directories="$(Release_Destination_Path)" ContinueOnError="true" />

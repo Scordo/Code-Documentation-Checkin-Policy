@@ -16,7 +16,7 @@ namespace CDCP
       if (!File.Exists(filePath))
         throw new FileNotFoundException($"Could not find file '{filePath}'");
 
-      SyntaxTree tree = CSharpSyntaxTree.ParseText(File.ReadAllText(filePath));
+      SyntaxTree tree = CSharpSyntaxTree.ParseText(File.ReadAllText(filePath), path: filePath);
 
       return CheckFileDocumentation(tree, policyConfig);
     }
