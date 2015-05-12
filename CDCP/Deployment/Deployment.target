@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CreateRelease" ToolsVersion="12.0">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CreateRelease" ToolsVersion="14.0">
   <UsingTask TaskName="Zip" AssemblyFile="MSBuild.Community.Tasks.dll" />
   <UsingTask TaskName="FileUpdate" AssemblyFile="MSBuild.Community.Tasks.dll" />
   <UsingTask TaskName="Prompt" AssemblyFile="MSBuild.Community.Tasks.dll" />
