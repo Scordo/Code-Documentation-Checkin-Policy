@@ -26,7 +26,25 @@ namespace CDCP.Tests
       Assert.AreEqual(19, violation.Column);
       Assert.AreEqual("Name", violation.SymbolName);
     }
-    
+
+    [TestMethod]
+    public void SingleProtectedInternalPropertyWithNoSummary()
+    {
+      string fileContent = Util.GetFileContent("Properties.P1_No_Summary_ProtectedInternal.cs");
+      PolicyConfig config = GetDeactivatedConfig();
+
+      config.PropertyConfig.SummaryDocumentationRequired = true;
+      config.PropertyConfig.VisibilitiesToCheck = new HashSet<Visibility> { Visibility.ProtectedInternal };
+      ViolationStore violationStore = new CodeCommentsFacade().CheckCodeDocumentation(fileContent, config);
+      Assert.IsTrue(violationStore.HasViolations);
+      Assert.AreEqual(1, violationStore.Violations.Count());
+      Violation violation = violationStore.Violations.First();
+
+      Assert.AreEqual(8, violation.Line);
+      Assert.AreEqual(31, violation.Column);
+      Assert.AreEqual("Name", violation.SymbolName);
+    }
+
     private PolicyConfig GetDeactivatedConfig()
     {
       PolicyConfig config = new PolicyConfig();
