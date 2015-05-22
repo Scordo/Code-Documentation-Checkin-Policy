@@ -1,10 +1,10 @@
 ﻿using CDCP.Configuration;
-using Roslyn.Compilers.CSharp;
+using Microsoft.CodeAnalysis;
 
 namespace CDCP.Processing
 {
-    public interface ISymbolProcessor
-    {
-        void Process(Symbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter);
-    }
+  public interface ISymbolProcessor
+  {
+    void Process(ISymbol symbol, PolicyConfig policyConfig, IViolationReporter violationReporter);
+  }
 }

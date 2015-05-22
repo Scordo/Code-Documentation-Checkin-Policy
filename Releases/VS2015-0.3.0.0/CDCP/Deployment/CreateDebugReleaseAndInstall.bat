@@ -1,4 +1,4 @@
 ﻿
-%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe Deployment.target
+"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" Deployment.target
 "..\..\-= Releases =-\Debug\CDCP.vsix"
 pause

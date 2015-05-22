@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CreateRelease" ToolsVersion="4">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="CreateRelease" ToolsVersion="14.0">
   <UsingTask TaskName="Zip" AssemblyFile="MSBuild.Community.Tasks.dll" />
   <UsingTask TaskName="FileUpdate" AssemblyFile="MSBuild.Community.Tasks.dll" />
   <UsingTask TaskName="Prompt" AssemblyFile="MSBuild.Community.Tasks.dll" />
@@ -36,8 +36,8 @@
 
   <Target Name="CopyBuildOutput">
     <ItemGroup>
-      <CDCP_BuildOutput Include="$(BinDirectory)CDCP.dll"/>
-      <CDCP_BuildOutput Include="$(BinDirectory)Roslyn*.dll"/>
+      <CDCP_BuildOutput Include="$(BinDirectory)*.dll" Exclude="$(BinDirectory)*TeamFoundation*;$(BinDirectory)*WITDataStore*"/>
+      <CDCP_BuildOutput Include="$(BinDirectory)*.pdb" Condition="'$(Configuration)' == 'Debug'" />
     </ItemGroup>
     
     <RemoveDir Directories="$(Release_Destination_Path)" ContinueOnError="true" />
