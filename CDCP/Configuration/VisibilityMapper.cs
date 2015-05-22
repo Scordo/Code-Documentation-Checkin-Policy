@@ -13,6 +13,7 @@ namespace CDCP.Configuration
           return Visibility.Public;
         case Accessibility.Protected:
           return Visibility.Protected;
+        case Accessibility.ProtectedOrInternal:
         case Accessibility.ProtectedAndInternal:
           return Visibility.ProtectedInternal;
         case Accessibility.Internal:

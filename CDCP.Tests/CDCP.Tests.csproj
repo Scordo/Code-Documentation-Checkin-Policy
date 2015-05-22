@@ -127,6 +127,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="SampleCode\Properties\P1_No_Summary.cs" />
+    <EmbeddedResource Include="SampleCode\Properties\P1_No_Summary_ProtectedInternal.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
