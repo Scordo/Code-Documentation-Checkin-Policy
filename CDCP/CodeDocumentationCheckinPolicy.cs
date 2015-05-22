@@ -14,90 +14,90 @@ using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace CDCP
 {
-    [Serializable]
-    public class CodeDocumentationCheckinPolicy : PolicyBase
+  [Serializable]
+  public class CodeDocumentationCheckinPolicy : PolicyBase
+  {
+    #region Properties
+
+    private string _serializedSettings;
+
+    [NonSerialized]
+    private PolicyConfig _config;
+
+    public override string Type
     {
-        #region Properties
+      get { return "Code Documentation Checkin Policy"; }
+    }
 
-        private string _serializedSettings;
+    public override string TypeDescription
+    {
+      get { return "Prevents user from checking in undocumented code."; }
+    }
 
-        [NonSerialized]
-        private PolicyConfig _config;
+    public override string Description
+    {
+      get { return "This Checkin Policy does check code documentation using the configured rule set."; }
+    }
 
-        public override string Type
-        {
-            get { return "Code Documentation Checkin Policy"; }
-        }
+    public override bool CanEdit
+    {
+      get { return true; }
+    }
 
-        public override string TypeDescription
-        {
-            get { return "Prevents user from checking in undocumented code."; }
-        }
+    #endregion
 
-        public override string Description
-        {
-            get { return "This Checkin Policy does check code documentation using the configured rule set."; }
-        }
+    #region Public Methods
 
-        public override bool CanEdit
-        {
-            get { return true; }
-        }
+    public override bool Edit(IPolicyEditArgs policyEditArgs)
+    {
+      if (_config == null)
+        _config = GetDeserializedSettings();
 
-        #endregion
+      using (PolicyConfigSettingsForm dialog = new PolicyConfigSettingsForm())
+      {
+        IPolicyConfigControl policyConfigControl = dialog;
+        policyConfigControl.ReadFromConfig(_config);
 
-        #region Public Methods
+        bool finishedWithOk = dialog.ShowDialog() == DialogResult.OK;
 
-        public override bool Edit(IPolicyEditArgs policyEditArgs)
-        {
-            if (_config == null)
-                _config = GetDeserializedSettings();
+        if (finishedWithOk)
+          policyConfigControl.WriteToConfig(_config);
 
-            using (PolicyConfigSettingsForm dialog = new PolicyConfigSettingsForm())
-            {
-                IPolicyConfigControl policyConfigControl = dialog;
-                policyConfigControl.ReadFromConfig(_config);
+        _serializedSettings = GetSerializedSettings();
+        return finishedWithOk;
+      }
+    }
 
-                bool finishedWithOk = dialog.ShowDialog() == DialogResult.OK;
+    public override PolicyFailure[] Evaluate()
+    {
+      if (_config == null)
+        _config = GetDeserializedSettings();
 
-                if (finishedWithOk)
-                    policyConfigControl.WriteToConfig(_config);
+      List<PolicyFailure> failures = new List<PolicyFailure>();
+      CodeCommentsFacade facade = new CodeCommentsFacade();
 
-                _serializedSettings = GetSerializedSettings();
-                return finishedWithOk;
-            }
-        }
+      foreach (PendingChange pendingChange in PendingCheckin.PendingChanges.CheckedPendingChanges.Where(EqualsConfigFilterCriterias))
+      {
+        failures.AddRange(facade.CheckFileDocumentation(pendingChange.LocalItem, _config ?? new PolicyConfig().LoadDefaults()).Violations.Select(v => new CodeDocumentationPolicyFailure(v, pendingChange, this)));
+      }
 
-        public override PolicyFailure[] Evaluate()
-        {
-            if (_config == null)
-                _config = GetDeserializedSettings();
+      return failures.ToArray();
+    }
 
-            List<PolicyFailure> failures = new List<PolicyFailure>();
-            CodeCommentsFacade facade = new CodeCommentsFacade();
-            
-            foreach (PendingChange pendingChange in PendingCheckin.PendingChanges.CheckedPendingChanges.Where(EqualsConfigFilterCriterias))
-            {
-                failures.AddRange(facade.CheckFileDocumentation(pendingChange.LocalItem, _config ?? PolicyConfig.GetDefault()).Violations.Select(v => new CodeDocumentationPolicyFailure(v, pendingChange, this)));
-            }
+    public override void Activate(PolicyFailure failure)
+    {
+      if (failure is CodeDocumentationPolicyFailure)
+        OnPolicyFailureActivation((CodeDocumentationPolicyFailure)failure);
+      else
+        base.Activate(failure);
+    }
 
-            return failures.ToArray();
-        }
+    #endregion
 
-        public override void Activate(PolicyFailure failure)
-        {
-            if (failure is CodeDocumentationPolicyFailure)
-                OnPolicyFailureActivation((CodeDocumentationPolicyFailure) failure);
-            else
-                base.Activate(failure);
-        }
+    #region Non Public Methods
 
-        #endregion
-
-        #region Non Public Methods
-
-        private void OnPolicyFailureActivation(CodeDocumentationPolicyFailure policyFailure)
-        {
+    private void OnPolicyFailureActivation(CodeDocumentationPolicyFailure policyFailure)
+    {
 #if V2010 
 			DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.10.0");
 #endif
@@ -114,55 +114,55 @@ namespace CDCP
       DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.14.0");
 #endif
       if (ide == null)
-                return;
+        return;
 
-            Document document = ide.Documents.Open(policyFailure.Violation.Filepath);
+      Document document = ide.Documents.Open(policyFailure.Violation.Filepath);
 
-            if (document == null)
-                return;
+      if (document == null)
+        return;
 
-            TextSelection selection = (TextSelection)document.Selection;
+      TextSelection selection = (TextSelection)document.Selection;
 
-            if (selection == null)
-                return;
+      if (selection == null)
+        return;
 
-            selection.GotoLine(policyFailure.Violation.Line, true);
-        }
-
-        private bool EqualsConfigFilterCriterias(PendingChange pendingChange)
-        {
-			return !pendingChange.ChangeType.HasFlag(ChangeType.Delete) && // make sure we dont try to parse deleted files
-					".cs".Equals(Path.GetExtension(pendingChange.FileName), StringComparison.InvariantCultureIgnoreCase) && // make sure it is a C# file
-					(!_config.SkipMerges || !pendingChange.ChangeType.HasFlag(ChangeType.Merge)) && // skip merges if set in options
-					(!_config.SkipBranches || !pendingChange.ChangeType.HasFlag(ChangeType.Branch)) && // skip branches if set in options
-					(!_config.SkipRollbacks || !pendingChange.ChangeType.HasFlag(ChangeType.Rollback)) && // skip rollbacks if set in options
-					(!_config.SkipUndeletes || !pendingChange.ChangeType.HasFlag(ChangeType.Undelete)); // skip undeletes if set in options
-        }
-
-        private PolicyConfig GetDeserializedSettings()
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(PolicyConfig));
-            
-            try
-            {
-                return (PolicyConfig) serializer.Deserialize(new StringReader(_serializedSettings));
-            }
-            catch (Exception)
-            {
-                return PolicyConfig.GetDefault();
-            }
-        }
-
-        private string GetSerializedSettings()
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(PolicyConfig));
-            StringWriter writer = new StringWriter();
-            serializer.Serialize(writer, _config ?? PolicyConfig.GetDefault());
-
-            return writer.ToString();
-        }
-
-
-        #endregion
+      selection.GotoLine(policyFailure.Violation.Line, true);
     }
+
+    private bool EqualsConfigFilterCriterias(PendingChange pendingChange)
+    {
+      return !pendingChange.ChangeType.HasFlag(ChangeType.Delete) && // make sure we dont try to parse deleted files
+          ".cs".Equals(Path.GetExtension(pendingChange.FileName), StringComparison.InvariantCultureIgnoreCase) && // make sure it is a C# file
+          (!_config.SkipMerges || !pendingChange.ChangeType.HasFlag(ChangeType.Merge)) && // skip merges if set in options
+          (!_config.SkipBranches || !pendingChange.ChangeType.HasFlag(ChangeType.Branch)) && // skip branches if set in options
+          (!_config.SkipRollbacks || !pendingChange.ChangeType.HasFlag(ChangeType.Rollback)) && // skip rollbacks if set in options
+          (!_config.SkipUndeletes || !pendingChange.ChangeType.HasFlag(ChangeType.Undelete)); // skip undeletes if set in options
+    }
+
+    private PolicyConfig GetDeserializedSettings()
+    {
+      XmlSerializer serializer = new XmlSerializer(typeof(PolicyConfig));
+
+      try
+      {
+        return (PolicyConfig)serializer.Deserialize(new StringReader(_serializedSettings));
+      }
+      catch (Exception)
+      {
+        return new PolicyConfig().LoadDefaults();
+      }
+    }
+
+    private string GetSerializedSettings()
+    {
+      XmlSerializer serializer = new XmlSerializer(typeof(PolicyConfig));
+      StringWriter writer = new StringWriter();
+      serializer.Serialize(writer, _config ?? new PolicyConfig().LoadDefaults());
+
+      return writer.ToString();
+    }
+
+
+    #endregion
+  }
 }

@@ -3,16 +3,13 @@ using System.Collections.Generic;
 
 namespace CDCP.Configuration
 {
-    [Serializable]
-    public class FieldConfig : ConfigBase
+  [Serializable]
+  public class FieldConfig : ConfigBase
+  {
+    public override void LoadDefaults()
     {
-        public static FieldConfig GetDefault()
-        {
-            return new FieldConfig
-            {
-                VisibilitiesToCheck = new HashSet<Visibility> { Visibility.Public, Visibility.Protected, Visibility.ProtectedInternal, Visibility.Internal },
-                SummaryDocumentationRequired = true,
-            };
-        }
+      base.LoadDefaults();
+      VisibilitiesToCheck = new HashSet<Visibility> { Visibility.Public, Visibility.Protected, Visibility.ProtectedInternal, Visibility.Internal };
     }
+  }
 }

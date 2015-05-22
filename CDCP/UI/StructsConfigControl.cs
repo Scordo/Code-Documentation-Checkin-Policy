@@ -2,11 +2,11 @@
 
 namespace CDCP.UI
 {
-    public class StructsConfigControl : ClassesConfigControl
+  public class StructsConfigControl : ClassesConfigControl
+  {
+    protected override ClassConfig GetConfig(PolicyConfig config)
     {
-        protected override ClassConfig GetConfig(PolicyConfig config)
-        {
-            return config.StructConfig;
-        }
+      return config.StructConfig;
     }
+  }
 }

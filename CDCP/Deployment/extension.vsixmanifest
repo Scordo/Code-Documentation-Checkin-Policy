@@ -11,7 +11,7 @@
         <Edition>Pro</Edition>
       </VisualStudio>
     </SupportedProducts>
-    <SupportedFrameworkRuntimeEdition MinVersion="4.0" />
+    <SupportedFrameworkRuntimeEdition MinVersion="4.5" />
   </Identifier>
   <References />
   <Content>
