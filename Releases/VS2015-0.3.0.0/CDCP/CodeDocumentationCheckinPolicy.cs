@@ -98,21 +98,7 @@ namespace CDCP
 
     private void OnPolicyFailureActivation(CodeDocumentationPolicyFailure policyFailure)
     {
-#if V2010 
-			DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.10.0");
-#endif
-
-#if VS2012
-			DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.11.0");
-#endif
-
-#if VS2013
-			DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.12.0");
-#endif
-
-#if VS2015
-      DTE2 ide = (DTE2)Marshal.GetActiveObject("VisualStudio.DTE.14.0");
-#endif
+      _DTE ide = (_DTE)PendingCheckin.GetService(typeof(_DTE));
       if (ide == null)
         return;
 
