@@ -36,7 +36,7 @@ namespace CDCP
       if (policyConfig == null)
         throw new ArgumentNullException(nameof(policyConfig));
 
-      MetadataReference mscorlib = MetadataReference.CreateFromAssembly(typeof(object).Assembly);
+      MetadataReference mscorlib = MetadataReference.CreateFromFile(typeof(object).Assembly.Location);
       CSharpCompilation compilation = CSharpCompilation.Create(Guid.NewGuid().ToString("N")).AddReferences(mscorlib).AddSyntaxTrees(tree);
       IEnumerable<INamespaceOrTypeSymbol> allSymbols = compilation.GlobalNamespace.GetMembers().AsEnumerable().Where(m => m.Locations.Any(l => l.IsInSource));
       ISymbolProcessorFactory symbolFactory = GetSymbolProcessorFactory();
